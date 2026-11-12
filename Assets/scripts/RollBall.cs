@@ -36,8 +36,12 @@ public class RollBall : MonoBehaviour
         
         SpawnPosition = transform.position;
 
-      
+        aimLine = GetComponent<LineRenderer>();
+        if (aimLine == null)
+        {
             aimLine = gameObject.AddComponent<LineRenderer>();
+        }
+            
             aimLine.sharedMaterial = aimMaterial;
             aimLine.positionCount = 2;
             aimLine.startWidth = 0.05f;
@@ -45,7 +49,7 @@ public class RollBall : MonoBehaviour
             aimLine.enabled = false;
         
 
-        gameManager = FindFirstObjectByType<GameManager>();
+        gameManager = FindObjectOfType<GameManager>();
        
     }
 
@@ -114,10 +118,7 @@ public class RollBall : MonoBehaviour
     {
         if (other.CompareTag("Respawn"))
         {
-            GameObject newBall = Instantiate(
-                ballPrefab, SpawnPosition, Quaternion.identity);
-
-            newBall.GetComponent<RollBall>().ballPrefab = ballPrefab;
+            Instantiate(ballPrefab, SpawnPosition, Quaternion.identity);
 
             Destroy(gameObject);
         }

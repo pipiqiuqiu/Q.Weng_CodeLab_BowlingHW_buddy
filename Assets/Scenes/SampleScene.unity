@@ -2043,7 +2043,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 456493470858924052, guid: 194c8282d69665c459253b10addacd3d, type: 3}
       propertyPath: FPerSec
-      value: 60
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 456493470858924052, guid: 194c8282d69665c459253b10addacd3d, type: 3}
       propertyPath: ballPrefab
