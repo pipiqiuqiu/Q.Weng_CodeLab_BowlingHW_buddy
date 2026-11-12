@@ -12,8 +12,7 @@ public class RollBall : MonoBehaviour
 
     private bool holdingButt;
     private bool roll;
-
-    public LayerMask personaLayer;
+    
     private float clickForce;
     
     private float pressStartTime;
@@ -105,7 +104,6 @@ public class RollBall : MonoBehaviour
 
             Vector3 start = transform.position + Vector3.up * 0.7f;
             float length = Mathf.Max(0, holdDuration * 2f);
-
             aimLine.enabled = true;
             aimLine.SetPosition(0, start);
             aimLine.SetPosition(1, start + forceDirection * length);
