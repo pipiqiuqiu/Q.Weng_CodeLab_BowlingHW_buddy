@@ -22,34 +22,71 @@ public class RollBall : MonoBehaviour
     public float FPerSec = 20f;
     private float FMaxTime = 3f;
     public Vector3 forceDirection;
+
+    private LineRenderer aimLine;
+    public Material aimMaterial;
+
+    private Vector3 SpawnPosition;
+    public GameObject ballPrefab;
     
+    private GameManager  gameManager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        //rb.AddForce(transform.forward * Force);
-        //bowlbutt = InputSystem.actions.FindAction("Bowl");
+        
+        SpawnPosition = transform.position;
+
+      
+            aimLine = gameObject.AddComponent<LineRenderer>();
+            aimLine.sharedMaterial = aimMaterial;
+            aimLine.positionCount = 2;
+            aimLine.startWidth = 0.05f;
+            aimLine.endWidth = 0.05f;
+            aimLine.enabled = false;
+        
+
+        gameManager = FindFirstObjectByType<GameManager>();
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Mouse.current.rightButton.wasPressedThisFrame)
+        if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             holdingButt = true;
             pressStartTime = Time.time;
         }
 
-        if (Mouse.current.leftButton.wasReleasedThisFrame)
+        if (Mouse.current.leftButton.wasReleasedThisFrame && holdingButt)
         {
             holdingButt = false;
-            holdDuration = Mathf.Clamp(Time.time - pressStartTime, 0f, FMaxTime);
-            Debug.Log(holdDuration);
+            aimLine.enabled = false;
+
+            holdDuration = Mathf.Clamp(
+                Time.time - pressStartTime, 0f, FMaxTime);
+
+            clickForce = holdDuration * FPerSec;
+
+            Ray mouseCameraRay = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+            RaycastHit mouseRaycastHit;
+
+            if (Physics.Raycast(mouseCameraRay, out mouseRaycastHit)
+                && mouseRaycastHit.collider.gameObject == gameObject)
+            {
+                forceDirection = (transform.position - mouseRaycastHit.point).normalized;
+
+                rb.AddForceAtPosition(
+                    forceDirection * clickForce,
+                    mouseRaycastHit.point,
+                    ForceMode.Impulse);
+            }
         }
 
         clickForce = holdDuration * FPerSec;
 
-        if (Mouse.current.leftButton.wasReleasedThisFrame) //check if left mouse button was just clicked
+        if (holdingButt) //check if left mouse button was just clicked
         {
             //where did the mouse click in terms of the world. 
             Ray mouseCameraRay = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
@@ -61,52 +98,43 @@ public class RollBall : MonoBehaviour
                 if(mouseRaycastHit.collider.gameObject == this.gameObject)
                 {
                     //push the ball away from the position where the raycast hit it
-                    Vector3 forceDirection = (transform.position - mouseRaycastHit.point).normalized;
-                   
-                    rb.AddForceAtPosition(forceDirection * clickForce, 
-                        mouseRaycastHit.point,ForceMode.Impulse);
+                    forceDirection = (transform.position - mouseRaycastHit.point).normalized;
                 }
             }
-            
-        }
+            holdDuration = Mathf.Clamp(Time.time - pressStartTime, 0f, FMaxTime);
 
-        //if (holdingButt && rb.linearVelocity == Vector3.zero)
-        {
-            //find the direction the mouse is pointing towards   
-          //  Debug.DrawRay(transform.position, forceDirection * holdDuration, Color.red);
+            Vector3 start = transform.position + Vector3.up * 0.7f;
+            float length = Mathf.Max(0, holdDuration * 2f);
+
+            aimLine.enabled = true;
+            aimLine.SetPosition(0, start);
+            aimLine.SetPosition(1, start + forceDirection * length);
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Respawn"))
+        {
+            GameObject newBall = Instantiate(
+                ballPrefab, SpawnPosition, Quaternion.identity);
+
+            newBall.GetComponent<RollBall>().ballPrefab = ballPrefab;
+
+            Destroy(gameObject);
+        }
+
+    }
+    
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Pin"))
+        {
+            gameManager.HitPin(collision.gameObject);
+        }
+    }
+
 
         
-        /*
-    void FixedUpdate()
-    {
-        if (holdingButt && rb.linearVelocity == Vector3.zero)
-        {
-         //find the direction the mouse is pointing towards
-         Debug.DrawRay(transform.position, forceDirection * holdDuration, Color.red);
-        }
-
-
-    }
-
-    void StartRoll()
-    {
-        if (Physics.Raycast(transform.position, FindDirection(), 1000f,personaLayer) == false)
-        {
-            rb.isKinematic = false;
-            rb.AddForce(Force * transform.TransformDirection(FindDirection()), ForceMode.Impulse);
-            roll = false;
-        }
-        Vector3 pointTo = FindDirection();
-    }
-
-    Vector3 FindDirection()
-    {
-        Vector3 mousePosition = Mouse.current.position.ReadValue();
-        mousePosition.z = 10f;
-        Vector3 dir = Camera.main.ScreenToWorldPoint(mousePosition);
-        dir.z = 10f;
-        return dir.normalized;
-    }*/
+ 
 }

@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - person
+  - Pin
   layers:
   - Default
   - TransparentFX
