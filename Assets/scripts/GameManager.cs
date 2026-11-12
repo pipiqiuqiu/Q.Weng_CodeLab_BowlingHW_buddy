@@ -34,7 +34,12 @@ public class GameManager : MonoBehaviour
 
     public void HitPin(GameObject pin)
     {
-        if (!hitPins.Add(pin)) return;
+        bool added = hitPins.Add(pin);
+
+        if (added == false)
+        {
+            return;
+        }
 
         score++;
         scoreText.text = score.ToString();

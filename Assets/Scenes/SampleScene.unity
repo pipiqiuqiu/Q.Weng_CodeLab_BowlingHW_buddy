@@ -751,7 +751,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -8.38, z: -195.7}
-  m_LocalScale: {x: 119.18023, y: 13.984, z: 56.073044}
+  m_LocalScale: {x: 478.9615, y: 13.984, z: 297.47873}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1047,13 +1047,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 802145608}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 43.7, y: 0.3, z: -65.1}
+  m_LocalRotation: {x: -0, y: -0.054876458, z: -0, w: 0.99849313}
+  m_LocalPosition: {x: 25.4, y: 0.3, z: -65.1}
   m_LocalScale: {x: 26.734612, y: 13.984, z: 355.58514}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -6.292, z: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1518,13 +1518,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1159635732}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -44.3, y: 0.3, z: -65.1}
+  m_LocalRotation: {x: -0, y: 0.035669375, z: -0, w: 0.9993637}
+  m_LocalPosition: {x: -32.3, y: 0.3, z: -64.2}
   m_LocalScale: {x: 26.734612, y: 13.984, z: 355.58514}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 4.088, z: 0}
 --- !u!1001 &1243642558
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2043,12 +2043,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 456493470858924052, guid: 194c8282d69665c459253b10addacd3d, type: 3}
       propertyPath: FPerSec
-      value: 30
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 456493470858924052, guid: 194c8282d69665c459253b10addacd3d, type: 3}
       propertyPath: ballPrefab
       value: 
       objectReference: {fileID: 7391523399584751439, guid: 194c8282d69665c459253b10addacd3d, type: 3}
+    - target: {fileID: 3129845986099933459, guid: 194c8282d69665c459253b10addacd3d, type: 3}
+      propertyPath: m_Mass
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7391523399584751439, guid: 194c8282d69665c459253b10addacd3d, type: 3}
       propertyPath: m_Name
       value: BowlingBall
